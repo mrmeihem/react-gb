@@ -1,7 +1,11 @@
 import React from "react";
 import { ButtonGroup, Button, Typography } from '@material-ui/core';
 
-const chatList = ['Chat-1', 'Chat-2', 'Chat-3'];
+const chatList = [
+  'Chat-1', 
+  'Chat-2', 
+  'Chat-3'
+];
 
 export const Chats = () => {
   const ChatButton = (chat) => (
