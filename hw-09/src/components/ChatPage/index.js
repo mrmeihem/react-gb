@@ -1,4 +1,4 @@
-import { useRef, useCallback } from "react";
+import { useRef, useCallback, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router";
 
@@ -11,7 +11,7 @@ import { Message } from "../Message";
 
 import { selectChats } from "../../store/chats/selectors";
 import { selectMessages } from "../../store/messages/selectors";
-import { addMessageAndReply } from "../../store/messages/actions";
+import { addMessageAndReply, initMessages } from "../../store/messages/actions";
 
 export const ChatPage = () => {
   //Styling the page
@@ -37,13 +37,21 @@ export const ChatPage = () => {
   //Loading chatId from the URL
   const { chatId } = useParams();
 
+  //finding the message ID
+  const messageId = messagesList?.[chatId]?.length;
+
   // renew the state
   const updateHistory = useCallback(
     (text, source) => {
-      dispatch(addMessageAndReply(chatId, text, source));
+      dispatch(addMessageAndReply(chatId, messageId, text, source));
     },
-    [dispatch, chatId]
+    [dispatch, chatId, messageId]
   );
+
+  //Messages Loading from DB
+  useEffect(() => {
+    dispatch(initMessages());
+  }, []);
 
   //Autoscroll to bottom
   const messagesEndRef = useRef(null);
@@ -81,8 +89,8 @@ export const ChatPage = () => {
         <Paper className={classes.chatWindow}>
           {!!chatId &&
             !!(chatId in messagesList) &&
-            messagesList[chatId].map((message, i) => (
-              <Message key={i} message={message} />
+            messagesList[chatId].map((message) => (
+              <Message key={message.messageId} message={message} />
             ))}
           <div ref={messagesEndRef} />
         </Paper>

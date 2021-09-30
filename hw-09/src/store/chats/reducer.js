@@ -1,13 +1,7 @@
-import { ADD_CHAT, DELETE_CHAT } from "./actions";
+import { ADD_CHAT, DELETE_CHAT, SET_CHATS } from "./actions";
 
 const initialState = {
-  chats: [
-    { id: 1, name: "Squarrelz" },
-    { id: 2, name: "Elephantis" },
-    { id: 3, name: "Magnus" },
-    { id: 4, name: "Stradivus" },
-    { id: 5, name: "Somali" },
-  ],
+  chats: [],
 };
 
 export const chatsReducer = (state = initialState, { type, payload }) => {
@@ -23,6 +17,12 @@ export const chatsReducer = (state = initialState, { type, payload }) => {
       return {
         ...state,
         chats: newChats,
+      };
+    }
+    case SET_CHATS: {
+      return {
+        ...state,
+        chats: payload,
       };
     }
     default:
