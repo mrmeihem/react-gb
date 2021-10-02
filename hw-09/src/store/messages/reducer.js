@@ -1,11 +1,8 @@
-import { ADD_MESSAGE, ADD_MESSAGE_CHAT } from "./actions";
+import { ADD_MESSAGE, SET_MESSAGES, ADD_MESSAGE_CHAT } from "./actions";
 
 const initialState = {
   messages: {
-    1: [
-      { text: "test1", source: "You" },
-      { text: "botmessage", source: "bot" },
-    ],
+    1: [],
     2: [],
     3: [],
     4: [],
@@ -36,6 +33,12 @@ export const messagesReducer = (state = initialState, { type, payload }) => {
       return {
         ...state,
         messages: newMessages,
+      };
+    }
+    case SET_MESSAGES: {
+      return {
+        ...state,
+        messages: payload,
       };
     }
     default:
